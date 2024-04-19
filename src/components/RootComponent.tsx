@@ -7,9 +7,10 @@ import {Context} from "../state/ContextProvider.tsx";
 // @ts-expect-error
 import {use} from 'react';
 import {chain, tabs} from "../state/constants.ts";
+import {EthContract} from "./EthContract.tsx";
 
 export const RootComponent: React.FC = () => {
-  const {activeTab, setActiveTab, setActiveChain, walletAddress} = use(Context);
+  const {activeTab, setActiveTab, setActiveChain, walletAddress, activeChain} = use(Context);
   return (
     <AppShell
       withBorder={false}
@@ -31,7 +32,7 @@ export const RootComponent: React.FC = () => {
         Project</Text>
         <Flex justify="center" align="center">
           {walletAddress && <div style={{marginRight: 20}}>{walletAddress}</div>}
-          <SegmentedControl data={chain} onChange={setActiveChain}/>
+          <SegmentedControl data={chain} onChange={setActiveChain} value={activeChain}/>
           <Wallet/>
         </Flex>
 
@@ -40,12 +41,14 @@ export const RootComponent: React.FC = () => {
       <AppShell.Main>
         <Tabs value={activeTab} onChange={setActiveTab} orientation="vertical">
           <Tabs.List>
-            <Tabs.Tab value="uniswap"
+            <Tabs.Tab value={tabs[0]}
                       style={{backgroundColor: activeTab === tabs[0] ? 'darkcyan' : "transparent"}}>Uniswap</Tabs.Tab>
-            <Tabs.Tab value="chainlink"
+            <Tabs.Tab value={tabs[1]}
                       style={{backgroundColor: activeTab === tabs[1] ? 'darkcyan' : "transparent"}}>Chainlink</Tabs.Tab>
-            <Tabs.Tab value="myContract"
+            <Tabs.Tab value={tabs[2]}
                       style={{backgroundColor: activeTab === tabs[2] ? 'darkcyan' : "transparent"}}>My contract</Tabs.Tab>
+            <Tabs.Tab value={tabs[3]}
+                      style={{backgroundColor: activeTab === tabs[3] ? 'darkcyan' : "transparent"}}>ETH Network</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="uniswap"><UniswapUR/></Tabs.Panel>
@@ -53,6 +56,7 @@ export const RootComponent: React.FC = () => {
             tab content</Tabs.Panel>
           <Tabs.Panel value="myContract">my contract
             tab content</Tabs.Panel>
+          <Tabs.Panel value="ethNetwork"><EthContract/></Tabs.Panel>
         </Tabs>
       </AppShell.Main>
       <AppShell.Footer style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
