@@ -8,6 +8,8 @@ import {Context} from "../state/ContextProvider.tsx";
 import {use} from 'react';
 import {chain, tabs} from "../state/constants.ts";
 import {EthContract} from "./EthContract.tsx";
+import {MyVotesContract} from "./MyContract.tsx";
+import {Notifications} from "@mantine/notifications";
 
 export const RootComponent: React.FC = () => {
   const {activeTab, setActiveTab, setActiveChain, walletAddress, activeChain} = use(Context);
@@ -46,16 +48,17 @@ export const RootComponent: React.FC = () => {
             <Tabs.Tab value={tabs[1]}
                       style={{backgroundColor: activeTab === tabs[1] ? 'darkcyan' : "transparent"}}>Chainlink</Tabs.Tab>
             <Tabs.Tab value={tabs[2]}
-                      style={{backgroundColor: activeTab === tabs[2] ? 'darkcyan' : "transparent"}}>My contract</Tabs.Tab>
+                      style={{backgroundColor: activeTab === tabs[2] ? 'darkcyan' : "transparent"}}>My
+              contract</Tabs.Tab>
             <Tabs.Tab value={tabs[3]}
-                      style={{backgroundColor: activeTab === tabs[3] ? 'darkcyan' : "transparent"}}>ETH Network</Tabs.Tab>
+                      style={{backgroundColor: activeTab === tabs[3] ? 'darkcyan' : "transparent"}}>ETH
+              Network</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="uniswap"><UniswapUR/></Tabs.Panel>
           <Tabs.Panel value="chainlink">chainlink
             tab content</Tabs.Panel>
-          <Tabs.Panel value="myContract">my contract
-            tab content</Tabs.Panel>
+          <Tabs.Panel value="myContract"><MyVotesContract/></Tabs.Panel>
           <Tabs.Panel value="ethNetwork"><EthContract/></Tabs.Panel>
         </Tabs>
       </AppShell.Main>
@@ -69,6 +72,7 @@ export const RootComponent: React.FC = () => {
         >
           Vuk, 2024
         </Text></AppShell.Footer>
+      <Notifications position="top-center" zIndex={1000}/>
     </AppShell>
   )
 
