@@ -10,6 +10,7 @@ import {chain, tabs} from "../state/constants.ts";
 import {EthContract} from "./EthContract.tsx";
 import {MyVotesContract} from "./MyContract.tsx";
 import {Notifications} from "@mantine/notifications";
+import {Oracle} from "./Oracle.tsx";
 
 export const RootComponent: React.FC = () => {
   const {activeTab, setActiveTab, setActiveChain, walletAddress, activeChain} = use(Context);
@@ -56,8 +57,7 @@ export const RootComponent: React.FC = () => {
           </Tabs.List>
 
           <Tabs.Panel value="uniswap"><UniswapUR/></Tabs.Panel>
-          <Tabs.Panel value="chainlink">chainlink
-            tab content</Tabs.Panel>
+          <Tabs.Panel value="chainlink"><Oracle/></Tabs.Panel>
           <Tabs.Panel value="myContract"><MyVotesContract/></Tabs.Panel>
           <Tabs.Panel value="ethNetwork"><EthContract/></Tabs.Panel>
         </Tabs>

@@ -91,10 +91,10 @@ const ContractAbi = [{
 
 const makeNotification = (msg: string) => {
   notifications.show({
-    title: 'Error notification',
+    title: 'Error',
     message: msg,
     autoClose: 3000,
-    style: {position: "absolute", bottom: "50px", right: "10px"},
+    style: {position: "absolute", bottom: "50px", right: "10px", maxWidth: "600px"},
     color: "red",
   })
 }
