@@ -3,7 +3,7 @@
 import {FC, use, useState} from "react";
 import {notifications} from "@mantine/notifications";
 import {Context} from "../state/ContextProvider.tsx";
-import {Anchor, Button, Loader, NumberInput, Select, Stack, Text} from "@mantine/core";
+import {Anchor, Button, Group, Loader, NumberInput, Select, Stack, Text} from "@mantine/core";
 import {createWalletClient, custom} from "viem";
 import {sepolia} from "viem/chains";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -150,13 +150,13 @@ export const FlashLoan: FC = () => {
       <NumberInput placeholder="Amount" value={amount} w={500} onChange={(e) => setAmount(Number(e))}
       />
 
-
-      <Button w={500} disabled={isMainnet} onClick={getFlashLoanHash}>Flash loan {selected}</Button>
-      {isLoading ? <Loader color="blue" size={12} type="bars"/> :
-        hash && <Anchor href={`https://sepolia.etherscan.io/tx/${hash}`} target="_blank" underline="hover">
-          Txn hash
-        </Anchor>}
-
+      <Group mt={0} mb={10} w={700} h={70}>
+        <Button w={500} disabled={isMainnet} onClick={getFlashLoanHash}>Flash loan {selected}</Button>
+        {isLoading ? <Loader color="blue" size={12} type="bars"/> :
+          hash && <Anchor href={`https://sepolia.etherscan.io/tx/${hash}`} target="_blank" underline="hover">
+                Txn hash
+            </Anchor>}
+      </Group>
 
     </Stack>
   );
