@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
 import {FC, use, useState} from "react";
-import {Button, Group, Select, Stack, Text} from "@mantine/core";
+import {Button, Group, Loader, Select, Stack, Text} from "@mantine/core";
 import {Context} from "../state/ContextProvider.tsx";
 import {createPublicClient, createWalletClient, custom, http} from "viem";
 import {sepolia} from "viem/chains";
@@ -72,11 +72,13 @@ export const Oracle: FC = () => {
 
   const [selected, setSelected] = useState<string>(DataFeedEndpoints[0].name)
   const [dataFeed, setDataFeed] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const {activeChain} = use(Context);
   const isMainnet = activeChain === 'Eth'
 
   const getDataFeed = async () => {
+    setIsLoading(true)
     const clientWallet = createWalletClient({
       chain: sepolia,
       transport: custom(window.ethereum!)
@@ -86,7 +88,7 @@ export const Oracle: FC = () => {
       // @ts-expect-error
       const {address: addr, dec} = DataFeedEndpoints.find(d => d.name === selected);
       const [account] = await clientWallet.getAddresses()
-      await clientWallet.writeContract({
+      const hash = await clientWallet.writeContract({
         address: process.env.ORACLE_CONTRACT_ADDRESS as `0x${string}`,
         abi: ContractAbi,
         functionName: 'getDataFeed',
@@ -97,6 +99,9 @@ export const Oracle: FC = () => {
         chain: sepolia,
         transport: http()
       })
+      await publicClient.waitForTransactionReceipt(
+        {hash: hash}
+      )
       const res = await publicClient.readContract({
         address: process.env.ORACLE_CONTRACT_ADDRESS as `0x${string}`,
         abi: ContractAbi,
@@ -104,15 +109,17 @@ export const Oracle: FC = () => {
         args: [addr],
       }) as number
       setDataFeed(Number(res) / Math.pow(10, dec))
+      setIsLoading(false)
       console.log("res", res)
     } catch (e: ErrorType) {
       console.error(e)
       makeNotification(e.message.toString())
+      setIsLoading(false)
     }
   }
 
   return (
-    <Stack m={15}><Text size="md">OracleContract (only for Sepolia network)
+    <Stack m={15}><Text size="md">OracleContract (only for Sepolia network) </Text>
 
       <Select
         label="DataFeed select"
@@ -125,12 +132,13 @@ export const Oracle: FC = () => {
         data={DataFeedEndpoints.map(d => d.name)}
       />
 
-      <Group mt={0} mb={10} w={550} h={70} justify="space-between">
+      <Group mt={0} mb={10} w={700} h={70}>
         <Button w={500} disabled={isMainnet} onClick={getDataFeed}>Get price {selected}</Button>
-        <Text>{dataFeed ? dataFeed.toString() : ""}</Text>
+        {isLoading ? <Loader color="blue" size={12} type="bars"/> : <Text>{dataFeed ? dataFeed.toString() : ""}</Text>}
+
       </Group>
 
-    </Text></Stack>
+    </Stack>
   )
 
 }

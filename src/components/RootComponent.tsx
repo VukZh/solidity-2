@@ -11,6 +11,7 @@ import {EthContract} from "./EthContract.tsx";
 import {MyVotesContract} from "./MyContract.tsx";
 import {Notifications} from "@mantine/notifications";
 import {Oracle} from "./Oracle.tsx";
+import {FlashLoan} from "./FlashLoan.tsx";
 
 export const RootComponent: React.FC = () => {
   const {activeTab, setActiveTab, setActiveChain, walletAddress, activeChain} = use(Context);
@@ -31,7 +32,7 @@ export const RootComponent: React.FC = () => {
                                                                           to: 'green',
                                                                           deg: 90
                                                                         }}
-                                                                        style={{width: 220}}>Solidity React
+                                                                        style={{width: 220}}>WEB3 React
         Project</Text>
         <Flex justify="center" align="center">
           {walletAddress && <div style={{marginRight: 20}}>{walletAddress}</div>}
@@ -47,16 +48,19 @@ export const RootComponent: React.FC = () => {
             <Tabs.Tab value={tabs[0]}
                       style={{backgroundColor: activeTab === tabs[0] ? 'darkcyan' : "transparent"}}>Uniswap</Tabs.Tab>
             <Tabs.Tab value={tabs[1]}
-                      style={{backgroundColor: activeTab === tabs[1] ? 'darkcyan' : "transparent"}}>Chainlink</Tabs.Tab>
+                      style={{backgroundColor: activeTab === tabs[1] ? 'darkcyan' : "transparent"}}>FlashLoan</Tabs.Tab>
             <Tabs.Tab value={tabs[2]}
-                      style={{backgroundColor: activeTab === tabs[2] ? 'darkcyan' : "transparent"}}>My
-              contract</Tabs.Tab>
+                      style={{backgroundColor: activeTab === tabs[2] ? 'darkcyan' : "transparent"}}>Chainlink</Tabs.Tab>
             <Tabs.Tab value={tabs[3]}
-                      style={{backgroundColor: activeTab === tabs[3] ? 'darkcyan' : "transparent"}}>ETH
+                      style={{backgroundColor: activeTab === tabs[3] ? 'darkcyan' : "transparent"}}>My
+              contract</Tabs.Tab>
+            <Tabs.Tab value={tabs[4]}
+                      style={{backgroundColor: activeTab === tabs[4] ? 'darkcyan' : "transparent"}}>ETH
               Network</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="uniswap"><UniswapUR/></Tabs.Panel>
+          <Tabs.Panel value="flashLoan"><FlashLoan/></Tabs.Panel>
           <Tabs.Panel value="chainlink"><Oracle/></Tabs.Panel>
           <Tabs.Panel value="myContract"><MyVotesContract/></Tabs.Panel>
           <Tabs.Panel value="ethNetwork"><EthContract/></Tabs.Panel>
