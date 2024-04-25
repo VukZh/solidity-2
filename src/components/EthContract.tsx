@@ -82,14 +82,16 @@ export const EthContract: FC = () => {
 
       </Group>
       <Input w={500} value={recipientAddress} onChange={(e) => setRecipientAddress(e.target.value)}
-             error={!isAddress(recipientAddress)}></Input>
-      {operationHash && <Group align="center"><Text>Transaction successful:
-          <a href={`https://${isMainnet ? '' : 'sepolia.'}etherscan.io/tx/${operationHash}`}
-             target="_blank"> {operationHash}</a>
-      </Text>
-          <CloseButton icon={<IconXboxX size={20} color={"orange"}/>} onClick={() => setOperationHash('')}/>
-      </Group>}
-    </Stack>
+             error={!isAddress(recipientAddress)} placeholder="Address"/>
+  {
+    operationHash && <Group align="center"><Text>Transaction successful:
+        <a href={`https://${isMainnet ? '' : 'sepolia.'}etherscan.io/tx/${operationHash}`}
+           target="_blank"> {operationHash}</a>
+    </Text>
+        <CloseButton icon={<IconXboxX size={20} color={"orange"}/>} onClick={() => setOperationHash('')}/>
+    </Group>
+  }
+</Stack>
 
-  )
+)
 }

@@ -97,7 +97,7 @@ export const Oracle: FC = () => {
       })
       const publicClient = createPublicClient({
         chain: sepolia,
-        transport: http()
+        transport: http("https://ethereum-sepolia-rpc.publicnode.com") // default http is very slow
       })
       await publicClient.waitForTransactionReceipt(
         {hash: hash}
